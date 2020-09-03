@@ -71,12 +71,12 @@ const baseUrl = 'https://lichess.org/'
 
 function renderStudyMenu(ctrl: AnalyseCtrl) {
 
-  return h('div.analyseMenu', [
+  return h('div.analyseMenu', { key: 'studyMenu' }, [
     h('button', {
       oncreate: helper.ontap(() => {
         ctrl.study!.actionMenu.s.showShareMenu = true
       })
-    }, [h('span.fa.fa-share'), 'Share']),
+    }, [h('span.fa.fa-share'), i18n('shareAndExport')]),
     h('button', {
       oncreate: helper.ontap(ctrl.study!.toggleLike)
     }, [
@@ -132,19 +132,19 @@ function renderShareMenu(ctrl: AnalyseCtrl) {
     handleXhrError(e)
   }
 
-  return h('div.analyseMenu', [
+  return h('div.analyseMenu', { key: 'shareMenu' }, [
     h('button', {
       oncreate: helper.ontap(() => {
         const url = baseUrl + `study/${ctrl.study!.data.id}`
         Plugins.LiShare.share({ url })
       })
-    }, [i18n('Study URL')]),
+    }, [i18n('studyUrl')]),
     h('button', {
       oncreate: helper.ontap(() => {
         const url = baseUrl + `study/${ctrl.study!.data.id}/${ctrl.study!.data.chapter.id}`
         Plugins.LiShare.share({ url })
       })
-    }, [i18n('Current chapter URL')]),
+    }, [i18n('currentChapterUrl')]),
     h('button', {
       oncreate: helper.ontap(() => {
         ctrl.study!.actionMenu.s.loadingStudyPGN = true
@@ -152,7 +152,7 @@ function renderShareMenu(ctrl: AnalyseCtrl) {
         .then(onPgnSuccess)
         .catch(onPgnError)
       })
-    }, ctrl.study!.actionMenu.s.loadingStudyPGN ? spinner.getVdom('monochrome') : [i18n('Study PGN')]),
+    }, ctrl.study!.actionMenu.s.loadingStudyPGN ? spinner.getVdom('monochrome') : [i18n('studyPgn')]),
     h('button', {
       oncreate: helper.ontap(() => {
         ctrl.study!.actionMenu.s.loadingChapterPGN = true
@@ -160,6 +160,6 @@ function renderShareMenu(ctrl: AnalyseCtrl) {
         .then(onPgnSuccess)
         .catch(onPgnError)
       })
-    }, ctrl.study!.actionMenu.s.loadingChapterPGN ? spinner.getVdom('monochrome') : [i18n('Chapter PGN')]),
+    }, ctrl.study!.actionMenu.s.loadingChapterPGN ? spinner.getVdom('monochrome') : [i18n('chapterPgn')]),
   ])
 }
